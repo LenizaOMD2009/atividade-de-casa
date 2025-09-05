@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Entregas</title>
+      <style>
+        .titulo-menu {
+         color: rgb(10, 150, 106);
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <h1 class="titulo-menu">Cadastro de Entregas</h1>
+  </header>
+
+  <main>
+    <form id="formEntregas">
+      <section>
+        <label for="clienteSelecionado">Cliente:</label>
+        <select id="clienteSelecionado" name="clienteSelecionado">
+          <option value="">-- Selecione um cliente --</option>
+          <option value="cliente1">Cliente 1</option>
+          <option value="cliente2">Cliente 2</option>
+          <option value="cliente3">Cliente 3</option>
+        </select><br>
+
+        <label for="dataEntrega">Data de Entrega:</label>
+        <input type="date" id="dataEntrega" name="dataEntrega"><br>
+
+        <label for="entregadorSelecionado">Entregador:</label>
+        <select id="entregadorSelecionado" name="entregadorSelecionado">
+          <option value="">-- Selecione um entregador --</option>
+          <option value="entregador1">Entregador 1</option>
+          <option value="entregador2">Entregador 2</option>
+          <option value="entregador3">Entregador 3</option>
+        </select><br>
+      </section>
+
+      <p><strong>Último salvamento:</strong> <span id="ultimaHora">Nenhum ainda</span></p>
+
+      <button type="submit">Salvar</button>
+    </form>
+
+    <br>
+    <a href="atividadedeht.html">← Voltar ao menu</a>
+  </main>
+
+  <footer>
+    <p>© 2025 - Sistema de Entregas</p>
+  </footer>
+
+  <!-- Script de salvamento automático -->
+  <script>
+    const form = document.getElementById("formEntregas");
+    const campos = [
+      "clienteSelecionado",
+      "dataEntrega",
+      "entregadorSelecionado"
+    ];
+    const horaSpan = document.getElementById("ultimaHora");
+
+    // Carregar dados salvos anteriormente
+    campos.forEach(id => {
+      const valorSalvo = localStorage.getItem(id);
+      if (valorSalvo !== null) {
+        document.getElementById(id).value = valorSalvo;
+      }
+    });
+
+    // Atualizar hora
+    const atualizarHora = () => {
+      const agora = new Date();
+      horaSpan.textContent = agora.toLocaleString("pt-BR");
+    };
+
+    // Salvamento automático ao digitar ou selecionar
+    form.addEventListener("input", (e) => {
+      if (campos.includes(e.target.id)) {
+        localStorage.setItem(e.target.id, e.target.value);
+        atualizarHora();
+      }
+    });
+
+    atualizarHora(); // Mostrar hora inicial
+  </script>
+</body>
+</html>

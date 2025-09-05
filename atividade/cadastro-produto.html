@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Produto</title>
+    <style>
+        .titulo-menu {
+         color: rgb(10, 150, 106);
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <h1 class="titulo-menu">Cadastro de Produto</h1>
+  </header>
+
+  <main>
+    <form id="formProduto">
+      <section>
+        <label for="produtoNome">Nome:</label>
+        <input type="text" id="produtoNome" name="produtoNome"><br>
+
+        <label for="valorCompra">Valor de Compra:</label>
+        <input type="number" id="valorCompra" name="valorCompra" step="0.01"><br>
+
+        <label for="margemLucro">Margem de Lucro (%):</label>
+        <input type="number" id="margemLucro" name="margemLucro" step="0.01"><br>
+
+        <label for="totalImposto">Total de Imposto (%):</label>
+        <input type="number" id="totalImposto" name="totalImposto" step="0.01"><br>
+
+        <label for="valorVenda">Valor de Venda:</label>
+        <input type="number" id="valorVenda" name="valorVenda" step="0.01"><br>
+
+        <label for="estoqueAtual">Estoque Atual:</label>
+        <input type="number" id="estoqueAtual" name="estoqueAtual"><br>
+
+        <label for="descricaoProduto">Descrição:</label><br>
+        <textarea id="descricaoProduto" name="descricaoProduto" rows="4" cols="50"></textarea><br>
+      </section>
+
+      <p><strong>Último salvamento:</strong> <span id="ultimaHora">Nenhum ainda</span></p>
+
+      <button type="submit">Salvar</button>
+    </form>
+
+    <br>
+    <a href="atividadedeht.html">← Voltar ao menu</a>
+  </main>
+
+  <footer>
+    <p>© 2025 - Sistema de Cadastro</p>
+  </footer>
+
+  <!-- Script para salvamento automático -->
+  <script>
+    const form = document.getElementById("formProduto");
+    const campos = [
+      "produtoNome",
+      "valorCompra",
+      "margemLucro",
+      "totalImposto",
+      "valorVenda",
+      "estoqueAtual",
+      "descricaoProduto"
+    ];
+    const horaSpan = document.getElementById("ultimaHora");
+
+    // Carrega dados salvos anteriormente
+    campos.forEach(id => {
+      const valorSalvo = localStorage.getItem(id);
+      if (valorSalvo !== null) {
+        document.getElementById(id).value = valorSalvo;
+      }
+    });
+
+    // Atualiza e exibe hora do salvamento
+    const atualizarHora = () => {
+      const agora = new Date();
+      horaSpan.textContent = agora.toLocaleString("pt-BR");
+    };
+
+    // Salvamento automático ao digitar
+    form.addEventListener("input", (e) => {
+      if (campos.includes(e.target.id)) {
+        localStorage.setItem(e.target.id, e.target.value);
+        atualizarHora();
+      }
+    });
+
+    atualizarHora(); // Mostra hora inicial
+  </script>
+</body>
+</html>
+
