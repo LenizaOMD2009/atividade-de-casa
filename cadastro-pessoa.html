@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Pessoa</title>
+      <style>
+        .titulo-menu {
+         color: rgb(10, 150, 106);
+        }
+      </style>
+
+</head>
+<body>
+  <header>
+    <h1 class="titulo-menu">Cadastro de Pessoa</h1>
+  </header>
+
+  <main>
+    <form id="formPessoa">
+      <section>
+        <label for="nomePessoa">Nome:</label>
+        <input type="text" id="nomePessoa" name="nomePessoa" /><br />
+
+        <label for="sobrenomePessoa">Sobrenome:</label>
+        <input type="text" id="sobrenomePessoa" name="sobrenomePessoa" /><br />
+
+        <label for="rgPessoa">RG:</label>
+        <input type="text" id="rgPessoa" name="rgPessoa" /><br />
+
+        <label for="cpfPessoa">CPF:</label>
+        <input type="text" id="cpfPessoa" name="cpfPessoa" /><br />
+
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="date" id="dataNascimento" name="dataNascimento" /><br />
+
+        <label for="estadoPessoa">Estado:</label>
+        <select id="estadoPessoa" name="estadoPessoa">
+          <option value="">-- Selecione --</option>
+          <option value="ativo">Ativo</option>
+          <option value="inativo">Inativo</option>
+        </select><br />
+      </section>
+
+      <p><strong>Último salvamento:</strong> <span id="ultimaHora">Nenhum ainda</span></p>
+
+      <button type="submit">Salvar</button>
+    </form>
+
+    <br />
+    <a href="atividadedeht.html">← Voltar ao menu</a>
+  </main>
+
+  <footer>
+    <p>© 2025 - Sistema de Cadastros</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('formPessoa');
+    const campos = [
+      'nomePessoa',
+      'sobrenomePessoa',
+      'rgPessoa',
+      'cpfPessoa',
+      'dataNascimento',
+      'estadoPessoa'
+    ];
+    const horaSpan = document.getElementById('ultimaHora');
+
+    // Carregar dados salvos no localStorage
+    campos.forEach(id => {
+      const valor = localStorage.getItem(id);
+      if (valor !== null) {
+        document.getElementById(id).value = valor;
+      }
+    });
+
+    // Atualiza a hora do último salvamento
+    function atualizarHora() {
+      const agora = new Date();
+      horaSpan.textContent = agora.toLocaleString('pt-BR');
+    }
+
+    // Salva automaticamente os dados ao mudar os campos
+    form.addEventListener('input', e => {
+      if (campos.includes(e.target.id)) {
+        localStorage.setItem(e.target.id, e.target.value);
+        atualizarHora();
+      }
+    });
+
+    // Impede envio do formulário para evitar reload (salvamento é automático)
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Dados salvos automaticamente!');
+    });
+
+    // Inicializa a hora caso já tenha dados salvos
+    if (campos.some(id => localStorage.getItem(id) !== null)) {
+      atualizarHora();
+    }
+  </script>
+</body>
+</html>

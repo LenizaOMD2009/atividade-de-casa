@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Contas</title>
+      <style>
+        .titulo-menu {
+         color: rgb(10, 150, 106);
+        }
+    </style>  
+</head>
+<body>
+  <header>
+    <h1 class="titulo-menu">Cadastro de Contas a Receber / Pagar</h1>
+  </header>
+
+  <main>
+    <form id="formContas">
+      <section>
+        <label for="valorInicial">Valor Inicial:</label>
+        <input type="number" id="valorInicial" name="valorInicial" step="0.01"><br>
+
+        <label for="valorDevido">Valor Devido:</label>
+        <input type="number" id="valorDevido" name="valorDevido" step="0.01"><br>
+
+        <label for="dataVencimento">Data de Vencimento:</label>
+        <input type="date" id="dataVencimento" name="dataVencimento"><br>
+
+        <label for="descontoConta">Desconto:</label>
+        <input type="number" id="descontoConta" name="descontoConta" step="0.01"><br>
+
+        <label for="jurosConta">Juros:</label>
+        <input type="number" id="jurosConta" name="jurosConta" step="0.01"><br>
+
+        <label for="observacaoConta">Observação:</label><br>
+        <textarea id="observacaoConta" name="observacaoConta" rows="4" cols="50"></textarea><br>
+      </section>
+
+      <p><strong>Último salvamento:</strong> <span id="ultimaHora">Nenhum ainda</span></p>
+
+      <button type="submit">Salvar</button>
+    </form>
+
+    <br>
+    <a href="atividadedeht.html">← Voltar ao menu</a>
+  </main>
+
+  <footer>
+    <p>© 2025 - Sistema de Contas</p>
+  </footer>
+
+  <!-- Script para salvamento automático -->
+  <script>
+    const form = document.getElementById("formContas");
+    const campos = [
+      "valorInicial",
+      "valorDevido",
+      "dataVencimento",
+      "descontoConta",
+      "jurosConta",
+      "observacaoConta"
+    ];
+    const horaSpan = document.getElementById("ultimaHora");
+
+    // Carregar dados salvos anteriormente
+    campos.forEach(id => {
+      const valorSalvo = localStorage.getItem(id);
+      if (valorSalvo !== null) {
+        document.getElementById(id).value = valorSalvo;
+      }
+    });
+
+    // Atualizar hora
+    const atualizarHora = () => {
+      const agora = new Date();
+      horaSpan.textContent = agora.toLocaleString("pt-BR");
+    };
+
+    // Salvamento automático ao digitar
+    form.addEventListener("input", (e) => {
+      if (campos.includes(e.target.id)) {
+        localStorage.setItem(e.target.id, e.target.value);
+        atualizarHora();
+      }
+    });
+
+    atualizarHora(); // Mostrar hora atual ao carregar
+  </script>
+</body>
+</html>
